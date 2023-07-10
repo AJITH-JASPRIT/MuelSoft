@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="dbec3f14-cc34-468f-ab7b-bf720f50eb2a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="dataweaveFlow1" doc:id="42344057-080b-46bc-a81d-b057c9a7e1d9" >
+		<ee:transform doc:name="String methods" doc:id="17a4bea5-21f1-41ba-9c16-7ffd83ff8c39" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Strings 
+output application/json
+---
+{
+   "capitalize" : capitalize("ajith kumar"),
+   "camelize": camelize("ajith _k_u_m_a_r"), 
+   "isLowerCase" : isLowerCase("ajith"),
+   "isUpperCase": isUpperCase("AJITH"),
+    "Lower" : lower("AJITH"),
+    "Upper" : upper("ajith"),
+    "remove" : remove("Ajith*Kumar","*"),
+    "replace" : replaceAll("*ajith*kumar*","*"," "),
+    "reverse" : reverse("ajith")
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dataweaveFlow" doc:id="b67fd21f-e2ed-4ca0-8d94-79f8e79c4179" >
+		<http:listener doc:name="Listener" doc:id="2d409f1e-a33d-46cb-a039-f4f66f01a047" config-ref="HTTP_Listener_config" path="/array"/>
+		<ee:transform doc:name="methods of arrays" doc:id="2dcdd8f1-9c5f-47d1-a155-0230faa71316" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Arrays 
+output application/json
+var a =[1,2,3,4,5,6]
+---
+{
+    a : divideBy(a,2),
+    b : contains(a,1),
+    c : sum(a),
+    d : indexOf(a,1),
+    e : slice(a,2 ,5),
+    f : drop(a,4)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dataweaveFlow2" doc:id="a8ae3b56-6f72-4542-81dc-ba1d3a6852c6" >
+		<ee:transform doc:name="basic functions" doc:id="42010f89-6247-4b15-b269-7396ed0e5382" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var a = [1,2,3,4,5]
+var b = [6,7]
+var c = [8,9,10]
+var d = [a , b , c]
+---
+{
+    "isBlank" : isBlank("   "),
+    "isEmpty" : isEmpty([]),
+    "isDecimal"  : isDecimal(1.2),
+    "isInteger" : isInteger(1),
+    "contains" : contains(a,1),
+    "endsWith" : endsWith("ajith" , "h"),
+    "isEmpty" : isEmpty(a),
+    "sum of an array" : sum(a),
+    "avg of an array" : avg(a),
+    "indexOf" : indexOf(a,1),
+    "indexOf" : indexOf("ajith","j"),
+    "++": "ajith" ++ "kumar",
+    "max" : max(a),
+    "min" : min(a),
+    "mod": mod(1,2),
+    "++" : a ++ [231],
+    "--" : a -- [231],
+    "to" : to( 1, 5),
+    "entriesOf" : entriesOf({"key1" : "value1"}),
+    " flatten" : flatten(d)
+   
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
