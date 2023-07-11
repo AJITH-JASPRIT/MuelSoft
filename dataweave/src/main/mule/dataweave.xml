@@ -84,5 +84,75 @@ var d = [a , b , c]
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<ee:transform doc:name="methods of arrays" doc:id="cd2cd7e5-edad-4160-857a-549d48203193" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Arrays 
+output application/json
+var a =[1,2,3,4,5,6]
+---
+{
+    a : divideBy(a,2),
+    b : contains(a,1),
+    c : sum(a),
+    d : indexOf(a,1),
+    e : slice(a,2 ,5),
+    f : drop(a,4)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dataweaveFlow3" doc:id="0ab534ba-dc51-42c6-a2a9-78854c672e19" >
+		<ee:transform doc:name="basic functions" doc:id="68789720-5911-49a1-93cc-47e153ea6bed" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var a = [1,2,3,4,5]
+var b = [6,7]
+var c = [8,9,10]
+var d = [a , b , c]
+---
+{
+    "isBlank" : isBlank("   "),
+    "isEmpty" : isEmpty([]),
+    "isDecimal"  : isDecimal(1.2),
+    "isInteger" : isInteger(1),
+    "contains" : contains(a,1),
+    "endsWith" : endsWith("ajith" , "h"),
+    "isEmpty" : isEmpty(a),
+    "sum of an array" : sum(a),
+    "avg of an array" : avg(a),
+    "indexOf" : indexOf(a,1),
+    "indexOf" : indexOf("ajith","j"),
+    "++": "ajith" ++ "kumar",
+    "max" : max(a),
+    "min" : min(a),
+    "mod": mod(1,2),
+    "++" : a ++ [231],
+    "--" : a -- [231],
+    "to" : to( 1, 5),
+    "entriesOf" : entriesOf({"key1" : "value1"}),
+    " flatten" : flatten(d)
+   
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="methods of arrays" doc:id="b20407a4-7cf8-49bb-8da8-7e81717cc33d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Arrays 
+output application/json
+var a =[1,2,3,4,5,6]
+---
+{
+    a : divideBy(a,2),
+    b : contains(a,1),
+    c : sum(a),
+    d : indexOf(a,1),
+    e : slice(a,2 ,5),
+    f : drop(a,4)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
